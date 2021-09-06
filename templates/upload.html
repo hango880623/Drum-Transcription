@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Drum Transcription</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.22.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.3.0"></script>
+      </head>
+      <style> 
+      #section3 midi-player {
+        display: block;
+        width: inherit;
+        margin: 4px;
+        margin-bottom: 0;
+      }
+      #section3 midi-player::part(control-panel) {
+        background: #ff5;
+        border: 2px solid #000;
+        border-radius: 10px 10px 0 0;
+      }
+      #section3 midi-player::part(play-button) {
+        color: #353;
+        border: 2px solid currentColor;
+        background-color: #4d4;
+        border-radius: 20px;
+        transition: all 0.2s;
+        content: 'hello';
+      }
+      #section3 midi-player::part(play-button):hover {
+        color: #0a0;
+        background-color: #5f5;
+        border-radius: 10px;
+      }
+      #section3 midi-player::part(time) {
+        font-family: monospace;
+      }
+      
+      /* Custom visualizer style */
+      #section3 midi-visualizer .piano-roll-visualizer {
+        background: #ffd;
+        border: 2px solid black;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        margin: 4px;
+        margin-top: 0;
+        overflow: auto;
+      }
+      #section3 midi-visualizer svg rect.note {
+        opacity: 0.6;
+        stroke-width: 2;
+      }
+      #section3 midi-visualizer svg rect.note[data-instrument="0"]{
+        fill: #e22;
+        stroke: #500;
+      }
+      #section3 midi-visualizer svg rect.note[data-instrument="2"]{
+        fill: #2ee;
+        stroke: #055;
+      }
+      #section3 midi-visualizer svg rect.note[data-is-drum="true"]{
+        fill: #888;
+        stroke: #888;
+      }
+      #section3 midi-visualizer svg rect.note.active {
+        opacity: 0.9;
+        stroke: #000;
+      }
+      </style>
+      <body>
+        <p><h1 align="center">Drum Transcription</h1></p>
+          <h2>Demo</h2>
+          <h3 style="font-size:18px;"><blockquote>This API can transcript drum kits from .wav file and show the midi.</blockquote></h3>
+              <div>
+                <audio controls>
+                  <source src="./static/demo/04_01.wav" type="audio/wav">
+              </audio>
+          </div>
+        <section id="section3">
+          <h2 >Midi visualization</h2>
+          <midi-player
+            src="./static/demo/04_01.mid"
+            sound-font visualizer="#section3 midi-visualizer">
+          </midi-player>
+          <midi-visualizer
+            src="./static/demo/04_01.mid">
+          </midi-visualizer>
+          </section>
+        <div class="container">
+            <div class="row">
+                <h2 style="color:burlywood">Select a file to upload</h2>
+                <p>
+                    {% with messages = get_flashed_messages() %}
+                      {% if messages %}
+                        <ul>
+                        {% for message in messages %}
+                          <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                      {% endif %}
+                    {% endwith %}
+                </p>
+                {% if filename %}
+                    <div>
+                        <audio controls>
+                            <source src="{{ url_for('display_image', filename=filename) }}" type="audio/wav">
+                            <source src="{{ url_for('display_image', filename=filename) }}" type="audio/mpeg">
+                            你的瀏覽器不支援 audio tag！
+                        </audio>
+                    </div>
+                {% endif %}
+                <form method="post" action="/" enctype="multipart/form-data">
+                    <dl>
+                        <p>
+                            <input type="file" name="file" class="form-control" autocomplete="off" required>
+                        </p>
+                    </dl>
+                    <p>
+                        <input type="submit" value="Submit" class="btn btn-info">
+                    </p>
+                </form>
+            </div>
+        </div>
+        <section id="section3">
+        <h2 align="left">Your midi visualization</h2>
+        <midi-player
+          src="./static/midi/{{midiname}}"
+          sound-font visualizer="#section3 midi-visualizer">
+        </midi-player>
+        <midi-visualizer
+          src="./static/midi/{{midiname}}">
+        </midi-visualizer>
+        </section>
+        <a href="./static/midi/{{midiname}}" download>
+          Midi Download Link
+        </a>
+        
+      </body>
+    </html>
