@@ -7,7 +7,7 @@ import pandas as pd
 from adt import drum_transcription
 
 UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = set(['wav','mp3'])
+ALLOWED_EXTENSIONS = set(['wav'])
 
 app = flask.Flask(__name__)
 app.secret_key = "secret key"
@@ -31,14 +31,14 @@ def upload_file():
         return redirect(request.url)
     file = request.files['file']
     if file.filename == '':
-        flash('No image selected for uploading')
+        flash('No file selected for uploading')
         return redirect(request.url)
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print(filename)
-        flash('Image successfully uploaded and displayed below')
+        flash('Audio successfully uploaded and displayed below')
         drum_transcription(os.path.join(app.config['UPLOAD_FOLDER'], filename),filename)
         midiname = filename.split('.')[0]+'.mid'
         return render_template('upload.html', filename=filename, midiname=midiname)
