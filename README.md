@@ -79,6 +79,7 @@ unzip -o /content/onsets-frames/maestro_checkpoint.zip -d /content/onsets-frames
 unzip -o /content/onsets-frames/e-gmd_checkpoint.zip -d /content/onsets-frames/e-gmd
 ```
 Then download the folder and copy into '/Drum-Transcription' directory.
+
 The folder structure will be
 ```
   Drum-Transcription/
