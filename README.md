@@ -53,7 +53,7 @@ The Magenta libraries are now available for use within Python programs and Jupyt
 ### Installation for production
 ```bash
 $ source activate magenta
-$ (magenta) apt-get update -qq && apt-get install -qq libfluidsynth1 fluid-soundfont-gm build-essential libasound2-dev libjack-dev ffmpeg  
+$ (magenta) apt-get update -qq && apt-get install -qq libfluidsynth1 fluid-soundfont-gm build-essential libasound2-dev libjack-dev ffmpeg sox 
 $ (magenta) pip install pyfluidsynth pretty_midi
 $ (magenta) pip install magenta
 $ (magenta) pip install flask
@@ -78,7 +78,8 @@ gsutil -q -m cp -R gs://magentadata/models/onsets_frames_transcription/*checkpoi
 unzip -o /content/onsets-frames/maestro_checkpoint.zip -d /content/onsets-frames/maestro
 unzip -o /content/onsets-frames/e-gmd_checkpoint.zip -d /content/onsets-frames/e-gmd
 ```
-Then download the folder and copy into '/Drum-Transcription' directory
+Then download the folder and copy into '/Drum-Transcription' directory.
+
 The folder structure will be
 ```
   Drum-Transcription/
