@@ -30,21 +30,27 @@ def upload_file():
         flash('No file part')
         return redirect(request.url)
     file = request.files['file']
+    bpm = request.form.get('bpm')
     if file.filename == '':
         flash('No file selected for uploading')
         return redirect(request.url)
+    if bpm == '':
+        flash('No bpm is selected')
+        return redirect(request.url)
+    
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         print(filename)
         flash('Audio successfully uploaded and displayed below')
-        drum_transcription(os.path.join(app.config['UPLOAD_FOLDER'], filename),filename)
+        drum_transcription(os.path.join(app.config['UPLOAD_FOLDER'], filename),filename,bpm)
         midiname = filename.split('.')[0]+'.mid'
-        return render_template('upload.html', filename=filename, midiname=midiname)
+        return render_template('upload.html', filename=filename, midiname=midiname,bpm = bpm)
     else:
         flash('Allowed audio types are - wav')
         return redirect(request.url)
+   
 
 @app.route('/display/<filename>')
 def display_image(filename):

@@ -88,9 +88,8 @@
             src="./static/demo/02_02_02.mid">
           </midi-visualizer>
           </section>
-        <div class="container">
-            <div class="row">
-                <h2 style="color:burlywood">Select a file to upload</h2>
+        <section id="section4">
+        <h2>Select a file to upload</h2>
                 <p>
                     {% with messages = get_flashed_messages() %}
                       {% if messages %}
@@ -107,13 +106,17 @@
                         <audio controls>
                             <source src="{{ url_for('display_image', filename=filename) }}" type="audio/wav">
                             <source src="{{ url_for('display_image', filename=filename) }}" type="audio/mpeg">
-                            你的瀏覽器不支援 audio tag！
+                            Not support audio tag！
                         </audio>
                     </div>
                 {% endif %}
+                
                 <form method="post" action="/" enctype="multipart/form-data">
                     <dl>
                         <p>
+                          <h3 style="font-size:16px;"> Please input the target bpm.</h3>
+                            <input type="text" name ="bpm">
+                          <h3 style="font-size:16px;"> Please input the target file.</h3>
                             <input type="file" name="file" class="form-control" autocomplete="off" required>
                         </p>
                     </dl>
@@ -121,10 +124,10 @@
                         <input type="submit" value="Submit" class="btn btn-info">
                     </p>
                 </form>
-            </div>
-        </div>
+                
+        </section>
         <section id="section3">
-        <h2 align="left">Your midi visualization</h2>
+        <h2 >Your midi visualization</h2>
         <midi-player
           src="./static/midi/{{midiname}}"
           sound-font visualizer="#section3 midi-visualizer">
@@ -133,6 +136,7 @@
           src="./static/midi/{{midiname}}">
         </midi-visualizer>
         </section>
+        
         <a href="./static/midi/{{midiname}}" download>
           Midi Download Link
         </a>

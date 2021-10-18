@@ -23,7 +23,8 @@ MAESTRO_CHECKPOINT_DIR = './content/onsets-frames/maestro/train'
 EGMD_CHECKPOINT_DIR = './content/onsets-frames/e-gmd'
 model_type = "E-GMD (Drums)"
 
-def drum_transcription(path,fn):
+def drum_transcription(path,fn,target_qpm):
+    target_qpm = float(target_qpm)
     #initialize
     tf.disable_v2_behavior()
 
@@ -112,6 +113,7 @@ def drum_transcription(path,fn):
         assert len(prediction_list) == 1
         sequence_prediction = note_seq.NoteSequence.FromString(
             prediction_list[0]['sequence_predictions'][0])
+        sequence_prediction.tempos[0].qpm = target_qpm
     midi_filename = ('./static/midi/'+fn.split('.')[0]+'.mid')
     midi_io.sequence_proto_to_midi_file(sequence_prediction, midi_filename)
         
